@@ -28,6 +28,7 @@ public class ExampleRestfulServlet extends RestfulServer {
        */
       List<IResourceProvider> resourceProviders = new ArrayList<IResourceProvider>();
       resourceProviders.add(new RestfulPatientResourceProvider());
+      resourceProviders.add(new ObservationResourceProvider());
      // resourceProviders.add(new RestfulObservationResourceProvider());
       setResourceProviders(resourceProviders);
    }

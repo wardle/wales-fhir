@@ -46,15 +46,7 @@ public class RestfulPatientResourceProvider implements IResourceProvider {
     @Read()
     public Patient getResourceById(@IdParam IdType theId) {
     	String identifier = theId.getIdPart();
-        Patient patient = new Patient();
-        Identifier id = patient.addIdentifier();
-        id.setValue(identifier);
-        HumanName name = patient.addName();
-        name.setFamily("Test");
-        name.addGiven("PatientOne");
-        patient.setGender(AdministrativeGender.FEMALE);
-        patient.setBirthDate(new Date());
-        return patient;
+    	return fakePatient(identifier);
     }
  
     /**
@@ -75,16 +67,25 @@ public class RestfulPatientResourceProvider implements IResourceProvider {
      */
     @Search()
     public List<Patient> getPatient(@RequiredParam(name = Patient.SP_FAMILY) StringParam theFamilyName) {
-        Patient patient = new Patient();
-        patient.addIdentifier();
-        patient.getIdentifier().get(0).setUse(IdentifierUse.OFFICIAL);
-        //patient.getIdentifier().get(0).setSystem(new UriDt("urn:hapitest:mrns"));
-        patient.getIdentifier().get(0).setValue("00001");
-        patient.addName();
-        patient.getName().get(0).setFamily(theFamilyName.getValue());
-        patient.getName().get(0).addGiven("PatientOne");
-        patient.setGender(AdministrativeGender.MALE);
+        Patient patient = fakePatient("1");
         return Collections.singletonList(patient);
+    }
+    
+    /**
+     * Returns a fake patient for purposes of demonstration...
+     * @return
+     */
+    private Patient fakePatient(String identifier) {
+        Patient patient = new Patient();
+        Identifier id = patient.addIdentifier();
+        id.setValue(identifier);
+        HumanName name = patient.addName();
+        name.setFamily("Test");
+        name.addGiven("PatientOne");
+        patient.setGender(AdministrativeGender.FEMALE);
+        patient.setBirthDate(new Date());
+        return patient;
+
     }
  
 }
